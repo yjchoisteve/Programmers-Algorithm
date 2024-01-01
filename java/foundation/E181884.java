@@ -1,4 +1,4 @@
-package programmers.java;
+package programmers.java.foundation;
 
 public class E181884 {
     public int solution(int[] numbers, int n) {

@@ -1,4 +1,4 @@
-package programmers.java;
+package programmers.java.foundation;
 
 import java.util.Comparator;
 import java.util.Map;

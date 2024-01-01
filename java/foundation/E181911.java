@@ -1,4 +1,4 @@
-package programmers.java;
+package programmers.java.foundation;
 
 public class E181911 {
     public String solution(String[] my_strings, int[][] parts) {

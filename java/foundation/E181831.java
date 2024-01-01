@@ -1,4 +1,4 @@
-package programmers.java;
+package programmers.java.foundation;
 
 import java.util.Scanner;
 import java.util.stream.IntStream;

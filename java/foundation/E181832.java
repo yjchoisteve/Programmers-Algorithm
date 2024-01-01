@@ -1,4 +1,4 @@
-package programmers.java;
+package programmers.java.foundation;
 
 import java.util.Scanner;
 
@@ -16,7 +16,7 @@ public class E181832 {
             for (int i = r; i >= l; i--)
                 ret[b][i] = s++;
             b--;
-            for (int i = l; i >= t; i--)
+            for (int i = b; i >= t; i--)
                 ret[i][l] = s++;
             l++;
         }

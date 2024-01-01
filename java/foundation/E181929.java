@@ -1,4 +1,4 @@
-package programmers.java;
+package programmers.java.foundation;
 
 public class E181929 {
     public int solution(int[] num_list) {
