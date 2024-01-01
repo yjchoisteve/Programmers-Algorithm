@@ -4,9 +4,6 @@ import java.util.stream.Stream;
 
 public class E120956 {
     public int solution(String[] babbling) {
-        Stream.of(babbling)
-                .map(s -> s.replace("aya", "---").replace("ye", "--").replace("woo", "---").replace("ma", "--"))
-                .forEach(i -> System.out.println(i));
         return (int) Stream.of(babbling)
                 .map(s -> s.replace("aya", "---").replace("ye", "--").replace("woo", "---").replace("ma", "--"))
                 .filter(s -> s.equals("-".repeat(s.length()))).count();
