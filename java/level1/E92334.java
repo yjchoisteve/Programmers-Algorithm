@@ -1,7 +1,6 @@
 package programmers.java.level1;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -17,7 +16,7 @@ public class E92334 {
             String[] tmp = e.split(" ");
             int count = m.get(tmp[1]) + 1;
             m.put(tmp[1], count);
-            if (m2.get(tmp[1]).contains(tmp[0])) {
+            if (!m2.get(tmp[1]).contains(tmp[0])) {
                 m2.get(tmp[1]).add(tmp[0]);
             }
         });

@@ -10,8 +10,8 @@ public class E77884 {
                 if (i % j == 0)
                     count++;
             }
-            return count;
-        }).filter(i -> i % 2 == 0).sum();
+            return count % 2 == 0 ? i : -i;
+        }).sum();
     }
 
     public static void main(String[] args) {
