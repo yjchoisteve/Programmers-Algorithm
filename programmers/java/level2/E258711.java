@@ -6,59 +6,52 @@ import java.util.List;
 
 public class E258711 {
     public int[] solution(int[][] edges) {
-        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        HashMap<Integer, List<Integer>> outMap = new HashMap<>();
+        HashMap<Integer, List<Integer>> inMap = new HashMap<>();
         for (int[] edge : edges) {
-            if (!map.containsKey(edge[0])) {
-                map.put(edge[0], new ArrayList<>());
-
+            if (!outMap.containsKey(edge[0])) {
+                outMap.put(edge[0], new ArrayList<>());
             }
-            map.get(edge[0]).add(edge[1]);
+            if (!inMap.containsKey(edge[1])) {
+                inMap.put(edge[1], new ArrayList<>());
+            }
+            outMap.get(edge[0]).add(edge[1]);
+            inMap.get(edge[1]).add(edge[0]);
         }
         int max = 0, start = 0;
-        for (int i : map.keySet()) {
-            if (max < map.get(i).size()) {
-                max = map.get(i).size();
+        for (int i : outMap.keySet()) {
+            if (!inMap.containsKey(i) && max < outMap.get(i).size()) {
+                max = outMap.get(i).size();
                 start = i;
             }
         }
-        List<Integer> list = map.get(start);
-        int graph = 0, stack = 0, donnut = 0;
-        for (int i = 0; i < list.size(); i++) {
-            int next = list.get(i);
-            int count = 1, main = next;
-            while (map.containsKey(next)) {
-                if (map.get(next).size() == 1) {
-                    count++;
-                    next = map.get(next).get(0);
-                    if (next == main) {
-                        donnut += count / 2;
-                        break;
-                    }
-                } else {
-                    stack += count;
+        List<Integer> list = outMap.get(start);
+        int graph = 0, bar = 0, donnut = 0;
+        for (int next : list) {
+            List<Integer> doneList = new ArrayList<>();
+            doneList.add(next);
+            int lineCount = 0;
+            while (outMap.containsKey(next)) {
+                int tmp = outMap.get(next).get(0);
+                outMap.get(next).remove(0);
+                if (outMap.get(next).isEmpty()) {
+                    outMap.remove(next);
+                }
+                lineCount++;
+                next = tmp;
+                if (!doneList.contains(next)) {
+                    doneList.add(next);
                 }
             }
-        }
-        for (int i : map.keySet()) {
-            if (i == start) {
-                continue;
-            }
-            int next = list.get(i);
-            int count = 1, main = next;
-            while (map.containsKey(next)) {
-                if (map.get(next).size() == 1) {
-                    count++;
-                    next = map.get(next).get(0);
-                    if (next == main) {
-                        donnut += count / 2;
-                        break;
-                    }
-                } else {
-                    stack += count;
-                }
+            if (doneList.size() - 1 == lineCount) {
+                bar++;
+            } else if (doneList.size() == lineCount) {
+                donnut++;
+            } else {
+                graph++;
             }
         }
-        int[] answer = { start, stack, donnut };
+        int[] answer = { start, donnut, bar, graph };
         return answer;
     }
 
