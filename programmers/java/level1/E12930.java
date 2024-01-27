@@ -7,8 +7,6 @@ public class E12930 {
             char c = s.charAt(i);
             if (j % 2 == 0) {
                 c = Character.toUpperCase(c);
-            } else {
-                c = Character.toLowerCase(c);
             }
             sb.append(c);
             if (c == ' ') {

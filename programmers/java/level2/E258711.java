@@ -3,6 +3,7 @@ package programmers.java.level2;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class E258711 {
     public int[] solution(int[][] edges) {
@@ -25,30 +26,28 @@ public class E258711 {
                 start = i;
             }
         }
-        List<Integer> list = outMap.get(start);
+        List<Integer> list = outMap.get(start).stream().collect(Collectors.toList());
         int graph = 0, bar = 0, donnut = 0;
         for (int next : list) {
-            List<Integer> doneList = new ArrayList<>();
-            doneList.add(next);
-            int lineCount = 0;
+            outMap.get(start).remove(Integer.valueOf(next));
+            inMap.get(next).remove(Integer.valueOf(start));
+            boolean found = false;
+            int from = next;
             while (outMap.containsKey(next)) {
-                int tmp = outMap.get(next).get(0);
-                outMap.get(next).remove(0);
-                if (outMap.get(next).isEmpty()) {
-                    outMap.remove(next);
+                if (outMap.get(next).size() == 2) {
+                    graph++;
+                    found = true;
+                    break;
                 }
-                lineCount++;
-                next = tmp;
-                if (!doneList.contains(next)) {
-                    doneList.add(next);
+                next = outMap.get(next).get(0);
+                if (next == from) {
+                    donnut++;
+                    found = true;
+                    break;
                 }
             }
-            if (doneList.size() - 1 == lineCount) {
+            if (!found) {
                 bar++;
-            } else if (doneList.size() == lineCount) {
-                donnut++;
-            } else {
-                graph++;
             }
         }
         int[] answer = { start, donnut, bar, graph };
