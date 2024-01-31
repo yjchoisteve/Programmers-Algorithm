@@ -1,67 +1,28 @@
 package programmers.java.level2;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
+public class E250135 {
+    public int solution(int h1, int m1, int s1, int h2, int m2, int s2) {
+        return alarmCount(toSeconds(h2, m2, s2)) - alarmCount(toSeconds(h1, m1, s1))
+                + (isOperlapped(h1, m1, s1) ? 1 : 0);
+    }
 
-public class E250136 {
-    public int solution(int[][] land) {
-        int[] arr = new int[land[0].length];
-        int max = 0;
-        int lenR = land.length, lenC = land[0].length;
-        for (int i = 0; i < lenR; i++) {
-            for (int j = 0; j < lenC; j++) {
-                if (land[i][j] == 0) {
-                    continue;
-                }
-                int result = 1;
-                Set<Integer> s = new HashSet<>();
-                Queue<int[]> q = new ArrayDeque<>();
-                q.add(new int[] { i, j });
-                land[i][j] = 0;
-                s.add(j);
-                while (!q.isEmpty()) {
-                    int[] cur = q.poll();
-                    int cr = cur[0];
-                    int cc = cur[1];
-                    for (int dx = -1; dx <= 1; dx++) {
-                        for (int dy = -1; dy <= 1; dy++) {
-                            if (((dx ^ dy) & 1) != 1) {
-                                continue;
-                            }
-                            int nr = cr + dx;
-                            int nc = cc + dy;
-                            if (nr < 0 || nr >= lenR || nc < 0 || nc >= lenC || land[nr][nc] == 0) {
-                                continue;
-                            }
-                            result++;
-                            land[nr][nc] = 0;
-                            s.add(nc);
-                            q.add(new int[] { nr, nc });
-                        }
-                    }
-                }
-                for (int d : s) {
-                    arr[d] += result;
-                }
-            }
-        }
-        for (int d : arr) {
-            max = Math.max(d, max);
-        }
-        return max;
+    int alarmCount(int s) {
+        int hAlarmCnt = (int) (s * 719 / 43200.0);
+        int mAlarmCnt = (int) (s * 59 / 3600.0);
+        return 1 + hAlarmCnt + mAlarmCnt - (s >= 12 * 3600 ? 1 : 0);
+    }
+
+    int toSeconds(int h, int m, int s) {
+        return s + m * 60 + h * 3600;
+    }
+
+    boolean isOperlapped(int h, int m, int s) {
+        double hAngle = (h * 30 + m * 0.5 + s * 0.5 / 60) % 360;
+        double mAngle = m * 6 + s * 0.1;
+        double sAngle = s * 6;
+        return hAngle == sAngle || mAngle == sAngle;
     }
 
     public static void main(String[] args) {
-        System.out.println(new E250136().solution(new int[][] { { 0, 0, 0, 1, 1, 1, 0, 0 }, { 0, 0, 0, 0, 1, 1, 0, 0 },
-                { 1, 1, 0, 0, 0, 1, 1, 0 }, { 1, 1, 1, 0, 0, 0, 0, 0 }, { 1, 1, 1, 0, 0, 0, 1, 1 } }));
-        System.out.println();
-        System.out.println(
-                new E250136().solution(new int[][] { { 1, 0, 1, 0, 1, 1 }, { 1, 0, 1, 0, 0, 0 }, { 1, 0, 1, 0, 0, 1 },
-                        { 1, 0, 0, 1, 0, 0 }, { 1, 0, 0, 1, 0, 1 }, { 1, 0, 0, 0, 0, 0 },
-                        { 1, 1, 1, 1, 1, 1 } }));
     }
 }
